@@ -82,7 +82,8 @@
 (defn- print-stacktrace [t]
   (binding [exception/*traditional* true
             exception/*fonts* *fonts*]
-    (repl/pretty-print-stack-trace actual test/*stack-trace-depth*)))
+    ;; avoid newline printed by repl/pretty-print-stack-trace
+    (@#'repl/print-exception t {:frame-limit test/*stack-trace-depth*})))
 
 (defn- error-report [{:keys [expected actual]}]
   (if expected
